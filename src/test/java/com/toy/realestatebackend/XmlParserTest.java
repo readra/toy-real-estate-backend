@@ -22,9 +22,9 @@ public class XmlParserTest {
         Document document = builder.parse("D:\\workspace\\toy-real-estate-backend\\src\\test\\java\\com\\toy\\realestatebackend\\employee.xml");
         List<Employee> employees = new LinkedList<>();
         NodeList nodeList = document.getDocumentElement().getChildNodes();
-        for (int i = 0; i < nodeList.getLength(); i++) {
+        for ( int i = 0; i < nodeList.getLength(); i++ ) {
             Node node = nodeList.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
+            if ( node.getNodeType() == Node.ELEMENT_NODE ) {
                 Element element = (Element) node;
                 String firstName = element.getElementsByTagName("firstname").item(0).getChildNodes().item(0).getNodeValue();
                 String lastName = element.getElementsByTagName("lastname").item(0).getChildNodes().item(0).getNodeValue();
@@ -32,7 +32,7 @@ public class XmlParserTest {
                 employees.add(new Employee(firstName, lastName, salary));
             }
         }
-        for (Employee employee : employees) System.out.println(employee.toString());
+        for ( Employee employee : employees ) System.out.println(employee.toString());
     }
 
     static class Employee {
