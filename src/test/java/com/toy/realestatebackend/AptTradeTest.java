@@ -1,5 +1,8 @@
 package com.toy.realestatebackend;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.ToString;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -35,34 +38,77 @@ public class AptTradeTest {
             Node node = nodeList.item(i);
             if ( node.getNodeType() == Node.ELEMENT_NODE ) {
                 Element element = (Element) node;
-                String transactionAmount = element.getElementsByTagName("거래금액").item(0).getChildNodes().item(0).getNodeValue();
-                String transactionType = element.getElementsByTagName("거래유형").item(0).getChildNodes().item(0).getNodeValue();
-                int buildingYear = Integer.parseInt(element.getElementsByTagName("건축년도").item(0).getChildNodes().item(0).getNodeValue());
-                items.add(new Item(transactionAmount, transactionType, buildingYear));
+
+                items.add(
+                        Item.builder()
+                                .transactionAmount(getElementByTagName(element, "거래금액"))
+                                .transactionType(getElementByTagName(element, "거래유형"))
+                                .buildingYear(Integer.parseInt(getElementByTagName(element, "건축년도")))
+                                .year(Integer.parseInt(getElementByTagName(element, "년")))
+                                .month(Integer.parseInt(getElementByTagName(element, "월")))
+                                .day(Integer.parseInt(getElementByTagName(element, "일")))
+                                .registrationDate(getElementByTagName(element, "등기일자"))
+                                .legalBuilding(getElementByTagName(element, "법정동"))
+                                .apartmentName(getElementByTagName(element, "아파트"))
+                                .exclusiveArea(Double.parseDouble(getElementByTagName(element, "전용면적")))
+                                .agencyLocation(getElementByTagName(element, "중개사소재지"))
+                                .localNumber(getElementByTagName(element, "지번"))
+                                .lawdCode(Integer.parseInt(getElementByTagName(element, "지역코드")))
+                                .layer(Integer.parseInt(getElementByTagName(element, "층")))
+                                .liftReasonDate(getElementByTagName(element, "해제사유발생일"))
+                                .isLift(Boolean.parseBoolean(getElementByTagName(element, "해제여부")))
+                                .build()
+                );
             }
         }
 
         for ( Item item : items ) System.out.println(item.toString());
     }
 
+    public String getElementByTagName(Element element, String tagName) {
+        return element.getElementsByTagName(tagName).item(0).getChildNodes().item(0).getNodeValue();
+    }
+
+    @Getter
+    @ToString
     static class Item {
         private final String transactionAmount;
         private final String transactionType;
         private final int buildingYear;
+        private final int year;
+        private final int month;
+        private final int day;
+        private final String registrationDate;
+        private final String legalBuilding;
+        private final String apartmentName;
+        private final double exclusiveArea;
+        private final String agencyLocation;
+        private final String localNumber;
+        private final int lawdCode;
+        private final int layer;
+        private final String liftReasonDate;
+        private final boolean isLift;
 
-        public Item(String transactionAmount, String transactionType, int buildingYear) {
+
+
+        @Builder
+        public Item(String transactionAmount, String transactionType, int buildingYear, int year, int month, int day, String registrationDate, String legalBuilding, String apartmentName, double exclusiveArea, String agencyLocation, String localNumber, int lawdCode, int layer, String liftReasonDate, boolean isLift) {
             this.transactionAmount = transactionAmount;
             this.transactionType = transactionType;
             this.buildingYear = buildingYear;
-        }
-
-        @Override
-        public String toString() {
-            return "Item{" +
-                    "transactionAmount='" + transactionAmount + '\'' +
-                    ", transactionType='" + transactionType + '\'' +
-                    ", buildingYear=" + buildingYear +
-                    '}';
+            this.year = year;
+            this.month = month;
+            this.day = day;
+            this.registrationDate = registrationDate;
+            this.legalBuilding = legalBuilding;
+            this.apartmentName = apartmentName;
+            this.exclusiveArea = exclusiveArea;
+            this.agencyLocation = agencyLocation;
+            this.localNumber = localNumber;
+            this.lawdCode = lawdCode;
+            this.layer = layer;
+            this.liftReasonDate = liftReasonDate;
+            this.isLift = isLift;
         }
     }
 }
