@@ -26,6 +26,7 @@ public class AptTradeTest {
         stringBuilder.append("?" + URLEncoder.encode("serviceKey", StandardCharsets.UTF_8) + "=" + "%2F7MeSbybd07ucEmj8BF72GmhsZV9KbqQ2BTpylshbKDKGNzSktYgCYvTOkvKuZCxWc8WHA5B3ecQ9qld7%2BGjOw%3D%3D"); /*Service Key*/
         stringBuilder.append("&" + URLEncoder.encode("LAWD_CD", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("11110", StandardCharsets.UTF_8)); /*각 지역별 코드*/
         stringBuilder.append("&" + URLEncoder.encode("DEAL_YMD", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("201512", StandardCharsets.UTF_8)); /*월 단위 신고자료*/
+        stringBuilder.append("&" + URLEncoder.encode("pageNo", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("2", StandardCharsets.UTF_8));
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
@@ -63,6 +64,16 @@ public class AptTradeTest {
         }
 
         for ( Item item : items ) System.out.println(item.toString());
+
+        NodeList pageNo = document.getElementsByTagName("body");
+        for ( int i = 0; i < pageNo.getLength(); i++ ) {
+            Node node = pageNo.item(i);
+            if ( node.getNodeType() == Node.ELEMENT_NODE ) {
+                Element element = (Element) node;
+
+                System.out.println(getElementByTagName(element, "pageNo"));
+            }
+        }
     }
 
     public String getElementByTagName(Element element, String tagName) {
