@@ -16,30 +16,30 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
 public class AptTradeTest {
     @Test
     public void aptTradeTest() throws IOException, ParserConfigurationException, SAXException {
-        String yyyyMM = "201512";
+        String yyyyMM = "20151201";
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMM");
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        DateTimeFormatter monthDateTimeFormatter = DateTimeFormatter.ofPattern("MM");
 
         try {
-            Calendar calendar = Calendar.getInstance();
-            Date date = simpleDateFormat.parse(yyyyMM);
+            LocalDate localDate = LocalDate.parse(yyyyMM, dateTimeFormatter);
 
-            calendar.setTime(date);
+            LocalDate afterOneMonth = localDate.plusMonths(1);
+            String month = afterOneMonth.format(monthDateTimeFormatter);
 
-            calendar.add(Calendar.MONTH, 1);
+            System.out.println(afterOneMonth.getYear() + month);
 
-            System.out.println(simpleDateFormat.format(calendar.getTime()));
+            System.out.println(localDate);
         } catch ( Exception e ) {
-            System.out.println("Failed to parse date format.");
+            System.out.println("Failed to parse date format." + e);
         }
 
 
