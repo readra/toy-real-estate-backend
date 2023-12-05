@@ -24,24 +24,28 @@ import java.util.List;
 public class AptTradeTest {
     @Test
     public void aptTradeTest() throws IOException, ParserConfigurationException, SAXException {
-        String yyyyMM = "20151201";
+        String startYyyyMm = "20151201";
+        String endYyyyMm = "20161001";
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         DateTimeFormatter monthDateTimeFormatter = DateTimeFormatter.ofPattern("MM");
 
         try {
-            LocalDate localDate = LocalDate.parse(yyyyMM, dateTimeFormatter);
+            LocalDate startLocalDate = LocalDate.parse(startYyyyMm, dateTimeFormatter);
+            LocalDate endLocalDate = LocalDate.parse(endYyyyMm, dateTimeFormatter);
 
-            LocalDate afterOneMonth = localDate.plusMonths(1);
-            String month = afterOneMonth.format(monthDateTimeFormatter);
+            LocalDate nowLocalDate = startLocalDate;
 
-            System.out.println(afterOneMonth.getYear() + month);
+            while ( true == nowLocalDate.isBefore(endLocalDate) || true == nowLocalDate.isEqual(endLocalDate) ) {
+                String month = nowLocalDate.format(monthDateTimeFormatter);
 
-            System.out.println(localDate);
+                System.out.println(nowLocalDate.getYear() + month);
+
+                nowLocalDate = nowLocalDate.plusMonths(1);
+            }
         } catch ( Exception e ) {
             System.out.println("Failed to parse date format." + e);
         }
-
 
         StringBuilder stringBuilder = new StringBuilder("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade"); /*URL*/
         stringBuilder.append("?" + URLEncoder.encode("serviceKey", StandardCharsets.UTF_8) + "=" + "%2F7MeSbybd07ucEmj8BF72GmhsZV9KbqQ2BTpylshbKDKGNzSktYgCYvTOkvKuZCxWc8WHA5B3ecQ9qld7%2BGjOw%3D%3D"); /*Service Key*/
