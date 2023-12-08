@@ -108,8 +108,6 @@ public class AptTradeTest {
         private final String liftReasonDate;
         private final boolean isLift;
 
-
-
         @Builder
         public Item(String transactionAmount, String transactionType, int buildingYear, int year, int month, int day, String registrationDate, String legalBuilding, String apartmentName, double exclusiveArea, String agencyLocation, String localNumber, int lawdCode, int layer, String liftReasonDate, boolean isLift) {
             this.transactionAmount = transactionAmount;
