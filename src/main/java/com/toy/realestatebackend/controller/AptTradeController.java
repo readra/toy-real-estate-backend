@@ -1,6 +1,7 @@
 package com.toy.realestatebackend.controller;
 
 import com.toy.realestatebackend.domain.AptTradeItem;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,8 +19,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:8080")
+@Slf4j
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 public class AptTradeController {
     @GetMapping("/api/apartment")
     public List<AptTradeItem> apartment() {
@@ -80,7 +82,7 @@ public class AptTradeController {
                 }
             }
         } catch ( Exception e ) {
-            System.out.println("Failed to parse date format." + e);
+            log.error("Failed to parse date format.", e);
         }
 
         return aptTradeItems;
