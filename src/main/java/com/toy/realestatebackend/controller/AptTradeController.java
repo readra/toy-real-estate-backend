@@ -19,10 +19,21 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * 아파트매매실거래 Controller Layer
+ *
+ * @author 김진용
+ */
 @Slf4j
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
 public class AptTradeController {
+    /**
+     * 아파트매매실거래 목록 API
+     *
+     * @return
+     *      아파트매매실거래 목록
+     */
     @GetMapping("/api/apartment")
     public List<AptTradeItem> apartment() {
         String startYyyyMm = "20151201";
@@ -88,6 +99,16 @@ public class AptTradeController {
         return aptTradeItems;
     }
 
+    /**
+     * 태그명 기준 XML Element 를 취득한다.
+     *
+     * @param element
+     *      XML Element
+     * @param tagName
+     *      태그명
+     * @return
+     *      XML Element
+     */
     public String getElementByTagName(Element element, String tagName) {
         return element.getElementsByTagName(tagName).item(0).getChildNodes().item(0).getNodeValue();
     }
