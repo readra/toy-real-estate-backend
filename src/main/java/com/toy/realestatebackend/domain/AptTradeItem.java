@@ -37,7 +37,7 @@ public class AptTradeItem {
     // 지번
     private final String localNumber;
     // 지역코드
-    private final int lawdCode;
+    private final String lawd;
     // 층
     private final int layer;
     // 해제사유발생일
@@ -72,7 +72,7 @@ public class AptTradeItem {
      *      중개사소재지
      * @param localNumber
      *      지번
-     * @param lawdCode
+     * @param lawd
      *      지역코드
      * @param layer
      *      층
@@ -82,7 +82,7 @@ public class AptTradeItem {
      *      해제여부
      */
     @Builder
-    public AptTradeItem(String transactionAmount, String transactionType, int buildingYear, int year, int month, int day, String registrationDate, String legalBuilding, String apartmentName, double exclusiveArea, String agencyLocation, String localNumber, int lawdCode, int layer, String liftReasonDate, boolean isLift) {
+    public AptTradeItem(String transactionAmount, String transactionType, int buildingYear, int year, int month, int day, String registrationDate, String legalBuilding, String apartmentName, double exclusiveArea, String agencyLocation, String localNumber, String lawd, int layer, String liftReasonDate, boolean isLift) {
         this.transactionAmount = transactionAmount;
         this.transactionType = transactionType;
         this.buildingYear = buildingYear;
@@ -95,7 +95,7 @@ public class AptTradeItem {
         this.exclusiveArea = exclusiveArea;
         this.agencyLocation = agencyLocation;
         this.localNumber = localNumber;
-        this.lawdCode = lawdCode;
+        this.lawd = lawd;
         this.layer = layer;
         this.liftReasonDate = liftReasonDate;
         this.isLift = isLift;

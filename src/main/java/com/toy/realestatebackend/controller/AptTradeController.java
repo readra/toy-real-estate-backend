@@ -1,6 +1,7 @@
 package com.toy.realestatebackend.controller;
 
 import com.toy.realestatebackend.domain.AptTradeItem;
+import com.toy.realestatebackend.enums.LawdType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -83,7 +84,7 @@ public class AptTradeController {
                                         .exclusiveArea(Double.parseDouble(getElementByTagName(element, "전용면적")))
                                         .agencyLocation(getElementByTagName(element, "중개사소재지"))
                                         .localNumber(getElementByTagName(element, "지번"))
-                                        .lawdCode(Integer.parseInt(getElementByTagName(element, "지역코드")))
+                                        .lawd(LawdType.codeOf(Integer.parseInt(getElementByTagName(element, "지역코드"))).getName())
                                         .layer(Integer.parseInt(getElementByTagName(element, "층")))
                                         .liftReasonDate(getElementByTagName(element, "해제사유발생일"))
                                         .isLift(Boolean.parseBoolean(getElementByTagName(element, "해제여부")))
