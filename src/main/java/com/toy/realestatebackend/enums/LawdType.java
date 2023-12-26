@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,9 +31,7 @@ public enum LawdType {
     private static final Map<Integer, LawdType> codeToEnum = new HashMap<>();
 
     static {
-        for ( LawdType lawdType : LawdType.values() ) {
-            codeToEnum.put(lawdType.getCode(), lawdType);
-        }
+        Arrays.stream(LawdType.values()).forEach(lawdType -> codeToEnum.put(lawdType.getCode(), lawdType));
     }
 
     /**
