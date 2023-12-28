@@ -1,4 +1,4 @@
-package com.toy.realestatebackend;
+package com.toy.realestatebackend.etc;
 
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;

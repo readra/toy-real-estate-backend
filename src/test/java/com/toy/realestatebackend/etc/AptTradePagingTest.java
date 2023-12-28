@@ -1,4 +1,4 @@
-package com.toy.realestatebackend;
+package com.toy.realestatebackend.etc;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
