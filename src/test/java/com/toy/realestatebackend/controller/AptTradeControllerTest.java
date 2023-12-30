@@ -1,5 +1,8 @@
 package com.toy.realestatebackend.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toy.realestatebackend.domain.AptTradeItem;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +14,17 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.nio.charset.StandardCharsets;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 public class AptTradeControllerTest {
+    @Autowired
+    private ObjectMapper objectMapper;
     @Autowired
     private MockMvc mockMvc;
 
@@ -33,7 +40,8 @@ public class AptTradeControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        String content = mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8);
-        System.out.println(content);
+        List<AptTradeItem> aptTradeItems = objectMapper.readValue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8), new TypeReference<>() {});
+
+        assertThat(aptTradeItems).isNotEmpty();
     }
 }
