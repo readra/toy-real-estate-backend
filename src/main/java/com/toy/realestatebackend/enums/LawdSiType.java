@@ -1,5 +1,6 @@
 package com.toy.realestatebackend.enums;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
@@ -15,6 +16,7 @@ import java.util.Map;
  */
 @Slf4j
 @Getter
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum LawdSiType {
     SEOUL (11, "서울특별시");
 
