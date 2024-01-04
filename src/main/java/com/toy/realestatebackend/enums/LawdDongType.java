@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.toy.realestatebackend.enums.LawdGuType.*;
+
 /**
  * 지역(동) 타입 enum
  *
@@ -16,16 +18,19 @@ import java.util.Map;
 @Slf4j
 @Getter
 public enum LawdDongType {
-    SEOUL_GANGDONG_JAMSIL (1174000100, "서울특별시 강동구 잠실동");
+    JAMSIL (1174000100, "잠실동", GANGDONG);
 
     // 지역코드(동)
     private final int code;
     // 지역명
     private final String name;
+    // 지역(구)
+    private final LawdGuType lawdGuType;
 
-    LawdDongType(final int code, final String name) {
+    LawdDongType(final int code, final String name, final LawdGuType lawdGuType) {
         this.code = code;
         this.name = name;
+        this.lawdGuType = lawdGuType;
     }
 
     private static final Map<Integer, LawdDongType> codeToEnum = new HashMap<>();
