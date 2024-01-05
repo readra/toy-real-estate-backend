@@ -2,6 +2,7 @@ package com.toy.realestatebackend.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.toy.realestatebackend.enums.LawdDongType;
 import com.toy.realestatebackend.enums.LawdGuType;
 import com.toy.realestatebackend.enums.LawdSiType;
 import org.junit.jupiter.api.DisplayName;
@@ -51,5 +52,17 @@ public class LawdControllerTest {
         List<LawdGuType> lawdGuTypes = objectMapper.readValue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8), new TypeReference<>() {});
 
         assertThat(lawdGuTypes).isNotEmpty();
+    }
+
+    @Test
+    @DisplayName("지역(동) 목록 조회 테스트")
+    void lawdDong_test() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(get(BASE_URL + "/lawd-dong"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<LawdDongType> lawdDongTypes = objectMapper.readValue(mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8), new TypeReference<>() {});
+
+        assertThat(lawdDongTypes).isNotEmpty();
     }
 }

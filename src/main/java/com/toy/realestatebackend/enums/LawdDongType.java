@@ -1,6 +1,8 @@
 package com.toy.realestatebackend.enums;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
@@ -49,7 +51,8 @@ public enum LawdDongType {
      * @return
      *      지역 상세 타입
      */
-    public static LawdDongType codeOf(final int code) {
+    @JsonCreator
+    public static LawdDongType codeOf(@JsonProperty("code") final int code) {
         LawdDongType lawdDongType = codeToEnum.get(code);
 
         Assert.notNull(lawdDongType, "Unsupported lawd dong type code. [CODE]" + code);

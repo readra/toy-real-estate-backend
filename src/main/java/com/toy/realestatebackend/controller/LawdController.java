@@ -1,5 +1,6 @@
 package com.toy.realestatebackend.controller;
 
+import com.toy.realestatebackend.enums.LawdDongType;
 import com.toy.realestatebackend.enums.LawdGuType;
 import com.toy.realestatebackend.enums.LawdSiType;
 import lombok.extern.slf4j.Slf4j;
@@ -39,5 +40,16 @@ public class LawdController {
     @GetMapping("/api/lawd-gu")
     public List<LawdGuType> lawdGu() {
         return Arrays.asList(LawdGuType.values());
+    }
+
+    /**
+     * 지역(동) 목록 API
+     *
+     * @return
+     *      지역(동) 목록
+     */
+    @GetMapping("/api/lawd-dong")
+    public List<LawdDongType> lawdDong() {
+        return Arrays.asList(LawdDongType.values());
     }
 }
