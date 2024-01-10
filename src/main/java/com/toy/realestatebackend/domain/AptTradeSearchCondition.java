@@ -20,11 +20,17 @@ public class AptTradeSearchCondition {
     private final YearMonth startYearMonth;
     // 조회년월 (종료)
     private final YearMonth endYearMonth;
+    // 조회가격 (시작)
+    private final int startTransactionAmount;
+    // 조회가격 (종료)
+    private final int endTransactionAmount;
 
     @Builder
-    public AptTradeSearchCondition(int lawdCode, YearMonth startYearMonth, YearMonth endYearMonth) {
+    public AptTradeSearchCondition(int lawdCode, YearMonth startYearMonth, YearMonth endYearMonth, int startTransactionAmount, int endTransactionAmount) {
         this.lawdCode = lawdCode;
         this.startYearMonth = startYearMonth;
         this.endYearMonth = endYearMonth;
+        this.startTransactionAmount = startTransactionAmount;
+        this.endTransactionAmount = endTransactionAmount;
     }
 }
