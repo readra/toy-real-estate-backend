@@ -15,18 +15,18 @@ import java.time.YearMonth;
 @ToString
 public class AptTradeSearchCondition {
     // 지역명
-    private final int lawdCode;
+    private final Integer lawdCode;
     // 조회년월 (시작)
     private final YearMonth startYearMonth;
     // 조회년월 (종료)
     private final YearMonth endYearMonth;
     // 조회가격 (시작)
-    private final int startTransactionAmount;
+    private final Integer startTransactionAmount;
     // 조회가격 (종료)
-    private final int endTransactionAmount;
+    private final Integer endTransactionAmount;
 
     @Builder
-    public AptTradeSearchCondition(int lawdCode, YearMonth startYearMonth, YearMonth endYearMonth, int startTransactionAmount, int endTransactionAmount) {
+    public AptTradeSearchCondition(Integer lawdCode, YearMonth startYearMonth, YearMonth endYearMonth, Integer startTransactionAmount, Integer endTransactionAmount) {
         this.lawdCode = lawdCode;
         this.startYearMonth = startYearMonth;
         this.endYearMonth = endYearMonth;
