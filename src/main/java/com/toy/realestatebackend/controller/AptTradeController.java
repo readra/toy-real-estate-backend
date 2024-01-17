@@ -39,13 +39,11 @@ public class AptTradeController {
     @GetMapping("/api/apartment")
     public List<AptTradeItem> apartment(AptTradeSearchCondition aptTradeSearchCondition) {
         List<AptTradeItem> aptTradeItems = new LinkedList<>();
+
         try {
-            YearMonth startYearMonth = aptTradeSearchCondition.getStartYearMonth();
-            YearMonth endYearMonth = aptTradeSearchCondition.getEndYearMonth();
+            YearMonth nowYearMonth = aptTradeSearchCondition.getStartYearMonth();
 
-            YearMonth nowYearMonth = startYearMonth;
-
-            while ( true == nowYearMonth.isBefore(endYearMonth) || true == nowYearMonth.equals(endYearMonth) ) {
+            while ( true == nowYearMonth.isBefore(aptTradeSearchCondition.getEndYearMonth()) || true == nowYearMonth.equals(aptTradeSearchCondition.getEndYearMonth()) ) {
                 try {
                     StringBuilder stringBuilder = new StringBuilder("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade"); /*URL*/
                     stringBuilder.append("?" + URLEncoder.encode("serviceKey", StandardCharsets.UTF_8) + "=" + "%2F7MeSbybd07ucEmj8BF72GmhsZV9KbqQ2BTpylshbKDKGNzSktYgCYvTOkvKuZCxWc8WHA5B3ecQ9qld7%2BGjOw%3D%3D"); /*Service Key*/
