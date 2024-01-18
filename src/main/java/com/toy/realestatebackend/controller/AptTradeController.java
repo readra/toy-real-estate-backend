@@ -56,9 +56,9 @@ public class AptTradeController {
                     document.getDocumentElement().normalize();
 
                     NodeList nodeList = document.getElementsByTagName("item");
-                    for ( int i = 0; i < nodeList.getLength(); i++ ) {
-                        Node node = nodeList.item(i);
-                        if ( node.getNodeType() == Node.ELEMENT_NODE ) {
+                    for ( int idx = 0; idx < nodeList.getLength(); idx++ ) {
+                        Node node = nodeList.item(idx);
+                        if ( Node.ELEMENT_NODE == node.getNodeType() ) {
                             Element element = (Element) node;
 
                             aptTradeItems.add(
