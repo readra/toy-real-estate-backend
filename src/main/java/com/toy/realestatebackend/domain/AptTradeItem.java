@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class AptTradeItem {
     // 거래금액
-    private final String transactionAmount;
+    private final int transactionAmount;
     // 거래유형
     private final String transactionType;
     // 건축년도
@@ -82,7 +82,7 @@ public class AptTradeItem {
      *      해제여부
      */
     @Builder
-    public AptTradeItem(String transactionAmount, String transactionType, int buildingYear, int year, int month, int day, String registrationDate, String legalBuilding, String apartmentName, double exclusiveArea, String agencyLocation, String localNumber, String lawd, int layer, String liftReasonDate, boolean isLift) {
+    public AptTradeItem(int transactionAmount, String transactionType, int buildingYear, int year, int month, int day, String registrationDate, String legalBuilding, String apartmentName, double exclusiveArea, String agencyLocation, String localNumber, String lawd, int layer, String liftReasonDate, boolean isLift) {
         this.transactionAmount = transactionAmount;
         this.transactionType = transactionType;
         this.buildingYear = buildingYear;
@@ -99,5 +99,29 @@ public class AptTradeItem {
         this.layer = layer;
         this.liftReasonDate = liftReasonDate;
         this.isLift = isLift;
+    }
+
+    /**
+     * 아파트매매실거래 유효성 검사
+     *
+     * @param aptTradeSearchCondition
+     *      아파트매매실거래 검색 조건
+     * @return
+     *      아파트매매실거래 유효성 여부
+     */
+    public boolean isValid(AptTradeSearchCondition aptTradeSearchCondition) {
+        if ( null == aptTradeSearchCondition.getStartTransactionAmount() && null == aptTradeSearchCondition.getEndTransactionAmount() ) {
+            return true;
+        }
+
+        if ( null == aptTradeSearchCondition.getEndTransactionAmount() ) {
+            return aptTradeSearchCondition.getStartTransactionAmount() <= this.transactionAmount;
+        } else {
+            if ( null == aptTradeSearchCondition.getStartTransactionAmount() ) {
+                return aptTradeSearchCondition.getEndTransactionAmount() >= this.transactionAmount;
+            } else {
+                return aptTradeSearchCondition.getStartTransactionAmount() <= this.transactionAmount && aptTradeSearchCondition.getEndTransactionAmount() >= this.transactionAmount;
+            }
+        }
     }
 }
