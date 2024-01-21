@@ -62,7 +62,7 @@ public class AptTradeController {
                             Element element = (Element) node;
 
                             AptTradeItem aptTradeItem = AptTradeItem.builder()
-                                    .transactionAmount(Integer.parseInt(getElementByTagName(element, "거래금액").replaceAll(",", "")))
+                                    .transactionAmount(Integer.parseInt(getElementByTagName(element, "거래금액").trim().replaceAll(",", "")))
                                     .transactionType(getElementByTagName(element, "거래유형"))
                                     .buildingYear(Integer.parseInt(getElementByTagName(element, "건축년도")))
                                     .year(Integer.parseInt(getElementByTagName(element, "년")))
