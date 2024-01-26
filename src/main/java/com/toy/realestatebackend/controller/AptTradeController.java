@@ -21,7 +21,7 @@ import java.util.List;
 public class AptTradeController {
     private final AptTradeService aptTradeService;
 
-    public AptTradeController(AptTradeService aptTradeService) {
+    public AptTradeController(final AptTradeService aptTradeService) {
         this.aptTradeService = aptTradeService;
     }
 
