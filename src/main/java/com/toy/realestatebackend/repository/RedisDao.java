@@ -15,18 +15,24 @@ import java.util.List;
  */
 @Repository
 public class RedisDao {
-    /**
-     * 주석 추가
-     */
+
     private final RedisTemplate<String, String> redisTemplate;
 
     public RedisDao(final RedisTemplate<String, String> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
-    public void setValues(String key, String data) {
+    /**
+     * ValueOperations 통한 데이터 입력
+     *
+     * @param key
+     *      데이터 key
+     * @param value
+     *      데이터 value
+     */
+    public void setValues(String key, String value) {
         ValueOperations<String, String> values = redisTemplate.opsForValue();
-        values.set(key, data);
+        values.set(key, value);
     }
 
     public void setValuesList(String key, String data) {
