@@ -23,7 +23,7 @@ public class RedisDao {
     }
 
     /**
-     * ValueOperations 통한 데이터 입력
+     * ValueOperations 통한 단일 데이터 입력
      *
      * @param key
      *      데이터 key
@@ -35,8 +35,16 @@ public class RedisDao {
         values.set(key, value);
     }
 
-    public void setValuesList(String key, String data) {
-        redisTemplate.opsForList().rightPushAll(key,data);
+    /**
+     * ValueOperations 통한 리스트 데이터 입력
+     *
+     * @param key
+     *      데이터 key
+     * @param value
+     *      데이터 value
+     */
+    public void setValuesList(String key, String value) {
+        redisTemplate.opsForList().rightPushAll(key,value);
     }
 
     public List<String> getValuesList(String key) {
