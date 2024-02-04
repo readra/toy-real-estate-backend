@@ -23,7 +23,7 @@ public class RedisDao {
     }
 
     /**
-     * ValueOperations 통한 단일 데이터 입력
+     * ValueOperations 통한 데이터 입력
      *
      * @param key
      *      데이터 key
@@ -36,7 +36,7 @@ public class RedisDao {
     }
 
     /**
-     * ValueOperations 통한 리스트 데이터 입력
+     * ListOperations 통한 데이터 입력
      *
      * @param key
      *      데이터 key
