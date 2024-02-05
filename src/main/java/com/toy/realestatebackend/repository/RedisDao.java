@@ -36,6 +36,34 @@ public class RedisDao {
     }
 
     /**
+     * ValueOperations 통한 데이터 입력
+     *
+     * @param key
+     *      데이터 key
+     * @param value
+     *      데이터 value
+     * @param duration
+     *      데이터 유효기간
+     */
+    public void setValues(String key, String value, Duration duration) {
+        ValueOperations<String, String> values = redisTemplate.opsForValue();
+        values.set(key, value, duration);
+    }
+
+    /**
+     * ValueOperations 통한 데이터 조회
+     *
+     * @param key
+     *      데이터 key
+     * @return
+     *      데이터 value
+     */
+    public String getValues(String key) {
+        ValueOperations<String, String> values = redisTemplate.opsForValue();
+        return values.get(key);
+    }
+
+    /**
      * ListOperations 통한 데이터 입력
      *
      * @param key
@@ -52,22 +80,20 @@ public class RedisDao {
      *
      * @param key
      *      데이터 key
+     * @return
+     *      데이터 value 목록
      */
     public List<String> getValuesList(String key) {
         Long size = redisTemplate.opsForList().size(key);
         return ( null == size || 0 == size ) ? new LinkedList<>() : redisTemplate.opsForList().range(key, 0, size - 1);
     }
 
-    public void setValues(String key, String data, Duration duration) {
-        ValueOperations<String, String> values = redisTemplate.opsForValue();
-        values.set(key, data, duration);
-    }
-
-    public String getValues(String key) {
-        ValueOperations<String, String> values = redisTemplate.opsForValue();
-        return values.get(key);
-    }
-
+    /**
+     * 데이터 key 기준 데이터 value 삭제
+     *
+     * @param key
+     *      데이터 key
+     */
     public void deleteValues(String key) {
         redisTemplate.delete(key);
     }
