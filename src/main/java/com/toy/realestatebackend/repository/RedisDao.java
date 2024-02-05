@@ -47,9 +47,15 @@ public class RedisDao {
         redisTemplate.opsForList().rightPushAll(key,value);
     }
 
+    /**
+     * ListOperations 통한 데이터 조회
+     *
+     * @param key
+     *      데이터 key
+     */
     public List<String> getValuesList(String key) {
-        Long len = redisTemplate.opsForList().size(key);
-        return len == 0 ? new LinkedList<>() : redisTemplate.opsForList().range(key, 0, len-1);
+        Long size = redisTemplate.opsForList().size(key);
+        return ( null == size || 0 == size ) ? new LinkedList<>() : redisTemplate.opsForList().range(key, 0, size - 1);
     }
 
     public void setValues(String key, String data, Duration duration) {
