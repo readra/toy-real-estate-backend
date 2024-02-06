@@ -72,7 +72,7 @@ public class RedisDao {
      *      데이터 value
      */
     public void setValuesList(String key, String value) {
-        redisTemplate.opsForList().rightPushAll(key,value);
+        redisTemplate.opsForList().rightPushAll(key, value);
     }
 
     /**
