@@ -7,4 +7,5 @@
 3.2. 캐시 적용
 3.2.1. Redis 적용 (진행중)
 3.2.1.1. Redis Object 저장 및 조회 추가 (진행중)
+         Redis 객체 저장법 조사 (진행중)
 3.2.2. Circuit Breaker 적용
