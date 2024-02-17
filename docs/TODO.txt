@@ -5,6 +5,6 @@
 3.1.1. 전체 페이지 수 산출
 3.1.2. 요청 페이지 데이터만 처리
 3.2. 캐시 적용
-3.2.1. Redis 적용 (진행중)
-3.2.1.1. Redis Object 저장 및 조회 추가 (진행중)
+3.2.1. Cache 적용 (진행중)
+3.2.1.1. Cache Object 저장 및 조회 추가 (진행중)
 3.2.2. Spring Cloud Circuit Breaker 적용
