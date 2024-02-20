@@ -59,21 +59,21 @@ public class AptTradeService {
 
                             AptTradeItem aptTradeItem = AptTradeItem.builder()
                                     .transactionAmount(getElementByTagName(element, "거래금액"))
-                                    .transactionType(getElementByTagName(element, "거래유형"))
                                     .buildingYear(Integer.parseInt(getElementByTagName(element, "건축년도")))
                                     .year(Integer.parseInt(getElementByTagName(element, "년")))
                                     .month(Integer.parseInt(getElementByTagName(element, "월")))
                                     .day(Integer.parseInt(getElementByTagName(element, "일")))
-                                    .registrationDate(getElementByTagName(element, "등기일자"))
                                     .legalBuilding(getElementByTagName(element, "법정동"))
                                     .apartmentName(getElementByTagName(element, "아파트"))
                                     .exclusiveArea(Double.parseDouble(getElementByTagName(element, "전용면적")))
-                                    .agencyLocation(getElementByTagName(element, "중개사소재지"))
                                     .localNumber(getElementByTagName(element, "지번"))
                                     .lawd(LawdGuType.codeOf(Integer.parseInt(getElementByTagName(element, "지역코드"))).getName())
                                     .layer(Integer.parseInt(getElementByTagName(element, "층")))
-                                    .liftReasonDate(getElementByTagName(element, "해제사유발생일"))
-                                    .isLift(Boolean.parseBoolean(getElementByTagName(element, "해제여부")))
+//                                    .transactionType(getElementByTagName(element, "거래유형"))
+//                                    .registrationDate(getElementByTagName(element, "등기일자"))
+//                                    .agencyLocation(getElementByTagName(element, "중개사소재지"))
+//                                    .liftReasonDate(getElementByTagName(element, "해제사유발생일"))
+//                                    .isLift(Boolean.parseBoolean(getElementByTagName(element, "해제여부")))
                                     .build();
 
                             if ( false == aptTradeItem.isValid(aptTradeSearchCondition) ) {
