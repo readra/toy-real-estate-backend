@@ -69,11 +69,6 @@ public class AptTradeService {
                                     .localNumber(getElementByTagName(element, "지번"))
                                     .lawd(LawdGuType.codeOf(Integer.parseInt(getElementByTagName(element, "지역코드"))).getName())
                                     .layer(Integer.parseInt(getElementByTagName(element, "층")))
-//                                    .transactionType(getElementByTagName(element, "거래유형"))
-//                                    .registrationDate(getElementByTagName(element, "등기일자"))
-//                                    .agencyLocation(getElementByTagName(element, "중개사소재지"))
-//                                    .liftReasonDate(getElementByTagName(element, "해제사유발생일"))
-//                                    .isLift(Boolean.parseBoolean(getElementByTagName(element, "해제여부")))
                                     .build();
 
                             if ( false == aptTradeItem.isValid(aptTradeSearchCondition) ) {
