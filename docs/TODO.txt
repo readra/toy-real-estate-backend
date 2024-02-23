@@ -8,4 +8,5 @@
 3.2.1. Cache 적용 (진행중)
 3.2.1.1. Cache Object 저장 및 조회 추가 (진행중)
 3.2.2. Spring Cloud Circuit Breaker 적용 (진행중)
+3.2.2.1. Cache + RDB 대상 Circuit Breaker 추가 (진행중)
 3.2.3. Spring Cloud Rate Limiter 적용 (NEXT)
