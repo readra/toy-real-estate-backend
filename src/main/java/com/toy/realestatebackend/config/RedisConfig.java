@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
@@ -25,6 +26,10 @@ public class RedisConfig {
     @Value("${spring.redis.port:6379}")
     private int port;
 
+    // Redis 비밀번호
+    @Value("${spring.redis.password:rlawlsdyd")
+    private String password;
+
     /**
      * RedisConnectionFactory 객체
      *
@@ -33,7 +38,12 @@ public class RedisConfig {
      */
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(host, port);
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        redisStandaloneConfiguration.setHostName(host);
+        redisStandaloneConfiguration.setPort(port);
+        redisStandaloneConfiguration.setPassword(password);
+
+        return new LettuceConnectionFactory(redisStandaloneConfiguration);
     }
 
     /**

@@ -4,6 +4,7 @@ import com.toy.realestatebackend.domain.AptTradeItem;
 import com.toy.realestatebackend.domain.AptTradeSearchCondition;
 import com.toy.realestatebackend.enums.LawdGuType;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -27,6 +28,13 @@ import java.util.List;
 @Slf4j
 @Service
 public class AptTradeService {
+    private final RedisService redisService;
+
+    @Autowired
+    public AptTradeService(final RedisService redisService) {
+        this.redisService = redisService;
+    }
+
     /**
      * 아파트매매실거래 목록 조회
      *
@@ -85,6 +93,8 @@ public class AptTradeService {
         } catch ( Exception e ) {
             log.error("Failed to parse date format.", e);
         }
+
+        redisService.setValues();
 
         return aptTradeItems;
     }
