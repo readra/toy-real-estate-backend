@@ -51,6 +51,14 @@ public class AptTradeService {
 
             while ( true == nowYearMonth.isBefore(aptTradeSearchCondition.getEndYearMonth()) || true == nowYearMonth.equals(aptTradeSearchCondition.getEndYearMonth()) ) {
                 try {
+                    /*
+                     * TODO
+                     * 1. aptTradeSearchCondition.getLawdCode() + nowYearMonth 기준 Redis key 생성
+                     * 2. Redis key 기준 아파트매매실거래 목록 존재 여부 확인
+                     * 3. 아파트매매실거래 목록 존재할 경우, 리턴
+                     * 4. 아파트매매실거래 목록 미존재할 경우, Open API 로 부터 아파트매매실거래 목록 조회 후, Redis 저장 및 리턴
+                      */
+
                     aptTradeItems.addAll(findAptTradeItemFromOpenApi(aptTradeSearchCondition, nowYearMonth));
                 } finally {
                     nowYearMonth = nowYearMonth.plusMonths(1);
