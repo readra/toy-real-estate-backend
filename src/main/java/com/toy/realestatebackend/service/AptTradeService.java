@@ -51,22 +51,24 @@ public class AptTradeService {
 
             while ( true == nowYearMonth.isBefore(aptTradeSearchCondition.getEndYearMonth()) || true == nowYearMonth.equals(aptTradeSearchCondition.getEndYearMonth()) ) {
                 try {
-                    /*
-                     * TODO
-                     * 1. aptTradeSearchCondition.getLawdCode() + nowYearMonth 기준 Redis key 생성 (완료)
-                     * 2. Redis key 기준 아파트매매실거래 목록 존재 여부 확인 (완료)
-                     * 3. 아파트매매실거래 목록 존재할 경우, 리턴
-                     * 4. 아파트매매실거래 목록 미존재할 경우, Open API 로 부터 아파트매매실거래 목록 조회 후, Redis 저장 및 리턴
-                      */
                     // 검색을 위한 Redis key 생성
                     String redisKey = aptTradeSearchCondition.getRedisKey(nowYearMonth);
                     // Redis key 기준 아파트매매실거래 목록 조회
-                    List<AptTradeItem> redisItems = redisService.getValues(redisKey, AptTradeItem.class);
-                    if ( null == redisItems || true == redisItems.isEmpty() ) {
-                        log.info("Empty key. [KEY]{}, [ITEM]{}", redisKey, redisItems);
+                    List<AptTradeItem> subAptTradeItems = redisService.getValues(redisKey, AptTradeItem.class);
+
+                    if ( null == subAptTradeItems || true == subAptTradeItems.isEmpty() ) {
+                        log.info("Empty key. [KEY]{}, [ITEM]{}", redisKey, subAptTradeItems);
+                        // 아파트매매실거래 목록 미존재할 경우, Open API 로 부터 아파트실거래 목록 조회
+                        subAptTradeItems = findAptTradeItemFromOpenApi(aptTradeSearchCondition, nowYearMonth);
+                        // Redis 저장
+                        try {
+                            redisService.setValues(redisKey, subAptTradeItems);
+                        } catch ( Exception e ) {
+                            log.error("Failed to set values to redis. [KEY]{}", redisKey, e);
+                        }
                     }
 
-                    aptTradeItems.addAll(findAptTradeItemFromOpenApi(aptTradeSearchCondition, nowYearMonth));
+                    aptTradeItems.addAll(subAptTradeItems);
                 } finally {
                     nowYearMonth = nowYearMonth.plusMonths(1);
                 }
@@ -74,8 +76,6 @@ public class AptTradeService {
         } catch ( Exception e ) {
             log.error("Failed to parse date format.", e);
         }
-
-        redisService.setValues();
 
         return aptTradeItems;
     }

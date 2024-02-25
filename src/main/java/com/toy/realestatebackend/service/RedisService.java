@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -40,17 +39,29 @@ public class RedisService {
      *      Exception
      */
     public <T> List<T> getValues(String key, Class<T> clazz) throws Exception {
-        String value = redisDao.getValues(key);
+        String value = (String) redisDao.getValues(key);
         if ( null == value || true == value.isBlank() ) {
             return null;
         } else {
             ObjectMapper objectMapper = new ObjectMapper();
-            return Collections.singletonList(objectMapper.readValue(value, clazz));
+            return objectMapper.readValue(value, new TypeReference<>() {});
         }
     }
 
-    public void setValues() {
-        redisDao.setValues("test", "test");
-        log.info("RedisService setValues.");
+    /**
+     * Redis Value 저장
+     *
+     * @param key
+     *      Redis Key
+     * @param values
+     *      Redis Values
+     * @throws Exception
+     *      Exception
+     */
+    public void setValues(String key, List<?> values) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String value = objectMapper.writeValueAsString(values);
+
+        redisDao.setValues(key, value);
     }
 }
