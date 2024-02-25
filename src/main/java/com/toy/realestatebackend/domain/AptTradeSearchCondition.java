@@ -33,4 +33,15 @@ public class AptTradeSearchCondition {
         this.startTransactionAmount = startTransactionAmount;
         this.endTransactionAmount = endTransactionAmount;
     }
+
+    /**
+     * Redis Key 를 생성한다.
+     * @param yearMonth
+     *      년월
+     * @return
+     *      Redis Key
+     */
+    public String getRedisKey(YearMonth yearMonth) {
+        return lawdCode + yearMonth.toString();
+    }
 }
