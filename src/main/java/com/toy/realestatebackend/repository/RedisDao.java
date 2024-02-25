@@ -16,9 +16,9 @@ import java.util.List;
 @Repository
 public class RedisDao {
 
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, Object> redisTemplate;
 
-    public RedisDao(final RedisTemplate<String, String> redisTemplate) {
+    public RedisDao(final RedisTemplate<String, Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
@@ -30,8 +30,8 @@ public class RedisDao {
      * @param value
      *      데이터 value
      */
-    public void setValues(String key, String value) {
-        ValueOperations<String, String> values = redisTemplate.opsForValue();
+    public void setValues(String key, Object value) {
+        ValueOperations<String, Object> values = redisTemplate.opsForValue();
         values.set(key, value);
     }
 
@@ -45,8 +45,8 @@ public class RedisDao {
      * @param duration
      *      데이터 유효기간
      */
-    public void setValues(String key, String value, Duration duration) {
-        ValueOperations<String, String> values = redisTemplate.opsForValue();
+    public void setValues(String key, Object value, Duration duration) {
+        ValueOperations<String, Object> values = redisTemplate.opsForValue();
         values.set(key, value, duration);
     }
 
@@ -58,8 +58,8 @@ public class RedisDao {
      * @return
      *      데이터 value
      */
-    public String getValues(String key) {
-        ValueOperations<String, String> values = redisTemplate.opsForValue();
+    public Object getValues(String key) {
+        ValueOperations<String, Object> values = redisTemplate.opsForValue();
         return values.get(key);
     }
 
@@ -71,7 +71,7 @@ public class RedisDao {
      * @param value
      *      데이터 value
      */
-    public void setValuesList(String key, String value) {
+    public void setValuesList(String key, Object value) {
         redisTemplate.opsForList().rightPushAll(key, value);
     }
 
@@ -83,7 +83,7 @@ public class RedisDao {
      * @return
      *      데이터 value 목록
      */
-    public List<String> getValuesList(String key) {
+    public List<Object> getValuesList(String key) {
         Long size = redisTemplate.opsForList().size(key);
         return ( null == size || 0 == size ) ? new LinkedList<>() : redisTemplate.opsForList().range(key, 0, size - 1);
     }
