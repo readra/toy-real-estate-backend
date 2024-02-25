@@ -38,6 +38,8 @@ public class AptTradeService {
     /**
      * 아파트매매실거래 목록 조회
      *
+     * @param aptTradeSearchCondition
+     *      아파트매매실거래 조회 조건
      * @return
      *      아파트매매실거래 목록
      */
@@ -49,43 +51,7 @@ public class AptTradeService {
 
             while ( true == nowYearMonth.isBefore(aptTradeSearchCondition.getEndYearMonth()) || true == nowYearMonth.equals(aptTradeSearchCondition.getEndYearMonth()) ) {
                 try {
-                    StringBuilder stringBuilder = new StringBuilder("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade"); /*URL*/
-                    stringBuilder.append("?" + URLEncoder.encode("serviceKey", StandardCharsets.UTF_8) + "=" + "%2F7MeSbybd07ucEmj8BF72GmhsZV9KbqQ2BTpylshbKDKGNzSktYgCYvTOkvKuZCxWc8WHA5B3ecQ9qld7%2BGjOw%3D%3D"); /*Service Key*/
-                    stringBuilder.append("&" + URLEncoder.encode("LAWD_CD", StandardCharsets.UTF_8) + "=" + URLEncoder.encode(Integer.toString(aptTradeSearchCondition.getLawdCode()), StandardCharsets.UTF_8)); /*각 지역별 코드*/
-                    stringBuilder.append("&" + URLEncoder.encode("DEAL_YMD", StandardCharsets.UTF_8) + "=" + URLEncoder.encode(nowYearMonth.format(DateTimeFormatter.ofPattern("yyyyMM")), StandardCharsets.UTF_8)); /*월 단위 신고자료*/
-
-                    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-                    DocumentBuilder builder = factory.newDocumentBuilder();
-                    Document document = builder.parse(stringBuilder.toString());
-                    document.getDocumentElement().normalize();
-
-                    NodeList nodeList = document.getElementsByTagName("item");
-                    for ( int idx = 0; idx < nodeList.getLength(); idx++ ) {
-                        Node node = nodeList.item(idx);
-                        if ( Node.ELEMENT_NODE == node.getNodeType() ) {
-                            Element element = (Element) node;
-
-                            AptTradeItem aptTradeItem = AptTradeItem.builder()
-                                    .transactionAmount(getElementByTagName(element, "거래금액"))
-                                    .buildingYear(Integer.parseInt(getElementByTagName(element, "건축년도")))
-                                    .year(Integer.parseInt(getElementByTagName(element, "년")))
-                                    .month(Integer.parseInt(getElementByTagName(element, "월")))
-                                    .day(Integer.parseInt(getElementByTagName(element, "일")))
-                                    .legalBuilding(getElementByTagName(element, "법정동"))
-                                    .apartmentName(getElementByTagName(element, "아파트"))
-                                    .exclusiveArea(Double.parseDouble(getElementByTagName(element, "전용면적")))
-                                    .localNumber(getElementByTagName(element, "지번"))
-                                    .lawd(LawdGuType.codeOf(Integer.parseInt(getElementByTagName(element, "지역코드"))).getName())
-                                    .layer(Integer.parseInt(getElementByTagName(element, "층")))
-                                    .build();
-
-                            if ( false == aptTradeItem.isValid(aptTradeSearchCondition) ) {
-                                continue;
-                            }
-
-                            aptTradeItems.add(aptTradeItem);
-                        }
-                    }
+                    aptTradeItems.addAll(findAptTradeItemFromOpenApi(aptTradeSearchCondition, nowYearMonth));
                 } finally {
                     nowYearMonth = nowYearMonth.plusMonths(1);
                 }
@@ -95,6 +61,62 @@ public class AptTradeService {
         }
 
         redisService.setValues();
+
+        return aptTradeItems;
+    }
+
+    /**
+     * Open API 로 부터 아파트매매실거래 목록 조회
+     *
+     * @param aptTradeSearchCondition
+     *      아파트매매실거래 조회 조건
+     * @param nowYearMonth
+     *      검색년월
+     * @return
+     *      아파트매매실거래 목록 조회
+     * @throws Exception
+     *      Exception
+     */
+    public List<AptTradeItem> findAptTradeItemFromOpenApi(AptTradeSearchCondition aptTradeSearchCondition, YearMonth nowYearMonth) throws Exception {
+        List<AptTradeItem> aptTradeItems = new LinkedList<>();
+
+        StringBuilder stringBuilder = new StringBuilder("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade"); /*URL*/
+        stringBuilder.append("?" + URLEncoder.encode("serviceKey", StandardCharsets.UTF_8) + "=" + "%2F7MeSbybd07ucEmj8BF72GmhsZV9KbqQ2BTpylshbKDKGNzSktYgCYvTOkvKuZCxWc8WHA5B3ecQ9qld7%2BGjOw%3D%3D"); /*Service Key*/
+        stringBuilder.append("&" + URLEncoder.encode("LAWD_CD", StandardCharsets.UTF_8) + "=" + URLEncoder.encode(Integer.toString(aptTradeSearchCondition.getLawdCode()), StandardCharsets.UTF_8)); /*각 지역별 코드*/
+        stringBuilder.append("&" + URLEncoder.encode("DEAL_YMD", StandardCharsets.UTF_8) + "=" + URLEncoder.encode(nowYearMonth.format(DateTimeFormatter.ofPattern("yyyyMM")), StandardCharsets.UTF_8)); /*월 단위 신고자료*/
+
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(stringBuilder.toString());
+        document.getDocumentElement().normalize();
+
+        NodeList nodeList = document.getElementsByTagName("item");
+        for ( int idx = 0; idx < nodeList.getLength(); idx++ ) {
+            Node node = nodeList.item(idx);
+            if ( Node.ELEMENT_NODE == node.getNodeType() ) {
+                Element element = (Element) node;
+
+                AptTradeItem aptTradeItem = AptTradeItem.builder()
+                        .transactionAmount(getElementByTagName(element, "거래금액"))
+                        .buildingYear(Integer.parseInt(getElementByTagName(element, "건축년도")))
+                        .year(Integer.parseInt(getElementByTagName(element, "년")))
+                        .month(Integer.parseInt(getElementByTagName(element, "월")))
+                        .day(Integer.parseInt(getElementByTagName(element, "일")))
+                        .legalBuilding(getElementByTagName(element, "법정동"))
+                        .apartmentName(getElementByTagName(element, "아파트"))
+                        .exclusiveArea(Double.parseDouble(getElementByTagName(element, "전용면적")))
+                        .localNumber(getElementByTagName(element, "지번"))
+                        .lawd(LawdGuType.codeOf(Integer.parseInt(getElementByTagName(element, "지역코드"))).getName())
+                        .layer(Integer.parseInt(getElementByTagName(element, "층")))
+                        .build();
+
+                if ( false == aptTradeItem.isValid(aptTradeSearchCondition) ) {
+                    continue;
+                }
+
+                aptTradeItems.add(aptTradeItem);
+            }
+        }
 
         return aptTradeItems;
     }
