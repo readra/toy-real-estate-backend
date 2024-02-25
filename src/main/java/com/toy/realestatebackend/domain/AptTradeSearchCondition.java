@@ -42,6 +42,6 @@ public class AptTradeSearchCondition {
      *      Redis Key
      */
     public String getRedisKey(YearMonth yearMonth) {
-        return lawdCode + yearMonth.toString();
+        return String.join("-", lawdCode.toString(), yearMonth.toString());
     }
 }
