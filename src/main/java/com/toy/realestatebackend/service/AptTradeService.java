@@ -60,12 +60,17 @@ public class AptTradeService {
                         log.info("Empty key. [KEY]{}, [ITEM]{}", redisKey, subAptTradeItems);
                         // 아파트매매실거래 목록 미존재할 경우, Open API 로 부터 아파트실거래 목록 조회
                         subAptTradeItems = findAptTradeItemFromOpenApi(aptTradeSearchCondition, nowYearMonth);
-                        // Redis 저장
+
                         try {
+                            // Redis 저장
                             redisService.setValues(redisKey, subAptTradeItems);
                         } catch ( Exception e ) {
                             log.error("Failed to set values to redis. [KEY]{}", redisKey, e);
                         }
+                    }
+
+                    if ( null == subAptTradeItems || true == subAptTradeItems.isEmpty() ) {
+                        continue;
                     }
 
                     aptTradeItems.addAll(subAptTradeItems);
