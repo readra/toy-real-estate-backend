@@ -45,10 +45,9 @@ public class AptTradeService {
      */
     public List<AptTradeItem> findAptTradeItems(AptTradeSearchCondition aptTradeSearchCondition) {
         List<AptTradeItem> aptTradeItems = new LinkedList<>();
+        YearMonth nowYearMonth = aptTradeSearchCondition.getStartYearMonth();
 
         try {
-            YearMonth nowYearMonth = aptTradeSearchCondition.getStartYearMonth();
-
             while ( true == nowYearMonth.isBefore(aptTradeSearchCondition.getEndYearMonth()) || true == nowYearMonth.equals(aptTradeSearchCondition.getEndYearMonth()) ) {
                 try {
                     // 검색을 위한 Redis key 생성
@@ -61,16 +60,8 @@ public class AptTradeService {
                         // 아파트매매실거래 목록 미존재할 경우, Open API 로 부터 아파트실거래 목록 조회
                         subAptTradeItems = findAptTradeItemFromOpenApi(aptTradeSearchCondition, nowYearMonth);
 
-                        try {
-                            // Redis 저장
-                            redisService.setValues(redisKey, subAptTradeItems);
-                        } catch ( Exception e ) {
-                            log.error("Failed to set values to redis. [KEY]{}", redisKey, e);
-                        }
-                    }
-
-                    if ( null == subAptTradeItems || true == subAptTradeItems.isEmpty() ) {
-                        continue;
+                        // Redis 저장
+                        redisService.setValues(redisKey, subAptTradeItems);
                     }
 
                     aptTradeItems.addAll(subAptTradeItems);
@@ -79,7 +70,7 @@ public class AptTradeService {
                 }
             }
         } catch ( Exception e ) {
-            log.error("Failed to parse date format.", e);
+            log.error("Failed to find apt trade item. [YM]{}, [COND]{}", nowYearMonth, aptTradeSearchCondition, e);
         }
 
         return aptTradeItems;
