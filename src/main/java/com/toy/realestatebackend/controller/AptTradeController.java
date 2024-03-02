@@ -2,6 +2,7 @@ package com.toy.realestatebackend.controller;
 
 import com.toy.realestatebackend.domain.AptTradeItem;
 import com.toy.realestatebackend.domain.AptTradeSearchCondition;
+import com.toy.realestatebackend.domain.CommonListCountResponse;
 import com.toy.realestatebackend.service.AptTradeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,7 +33,12 @@ public class AptTradeController {
      *      아파트매매실거래 목록
      */
     @GetMapping("/api/apartment")
-    public List<AptTradeItem> findAptTradeItems(AptTradeSearchCondition aptTradeSearchCondition) {
-        return aptTradeService.findAptTradeItems(aptTradeSearchCondition);
+    public CommonListCountResponse<AptTradeItem> findAptTradeItems(AptTradeSearchCondition aptTradeSearchCondition) {
+        List<AptTradeItem> aptTradeItems = aptTradeService.findAptTradeItems(aptTradeSearchCondition);
+
+        return CommonListCountResponse.<AptTradeItem>builder()
+                .results(aptTradeItems)
+                .totalCount(aptTradeItems.size())
+                .build();
     }
 }
