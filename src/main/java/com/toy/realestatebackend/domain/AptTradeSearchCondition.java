@@ -24,14 +24,20 @@ public class AptTradeSearchCondition {
     private final Integer startTransactionAmount;
     // 조회가격 (종료)
     private final Integer endTransactionAmount;
+    // 아파트매매실거래 정보 갯수
+    private final Integer itemCount;
+    // 아파트매매실거래 정보 키
+    private final String itemKey;
 
     @Builder
-    public AptTradeSearchCondition(Integer lawdCode, YearMonth startYearMonth, YearMonth endYearMonth, Integer startTransactionAmount, Integer endTransactionAmount) {
+    public AptTradeSearchCondition(Integer lawdCode, YearMonth startYearMonth, YearMonth endYearMonth, Integer startTransactionAmount, Integer endTransactionAmount, Integer itemCount, String itemKey) {
         this.lawdCode = lawdCode;
         this.startYearMonth = startYearMonth;
         this.endYearMonth = endYearMonth;
         this.startTransactionAmount = startTransactionAmount;
         this.endTransactionAmount = endTransactionAmount;
+        this.itemCount = itemCount;
+        this.itemKey = itemKey;
     }
 
     /**
