@@ -11,6 +11,34 @@ import java.util.Base64;
  */
 @Slf4j
 public class Base64Util {
+    /**
+     * Base64 인코딩 처리한다.
+     *
+     * @param text
+     *      문자열
+     * @return
+     *      인코딩 문자열
+     */
+    public static String encode(String text) {
+        String result = null;
+
+        try {
+            result = Base64.getEncoder().encodeToString(text.getBytes());
+        } catch ( Exception e ) {
+            log.error("Failed to encode base64.", e);
+        }
+
+        return result;
+    }
+
+    /**
+     * Base64 디코딩 처리한다.
+     *
+     * @param text
+     *      문자열
+     * @return
+     *      디코딩 문자열
+     */
     public static String decode(String text) {
         String result = null;
 
