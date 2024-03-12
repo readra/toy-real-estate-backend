@@ -25,7 +25,7 @@ public class Base64Util {
         try {
             result = Base64.getEncoder().encodeToString(text.getBytes());
         } catch ( Exception e ) {
-            log.error("Failed to encode base64.", e);
+            log.error("Failed to encode base64. [TEXT]{}", text, e);
         }
 
         return result;
@@ -45,7 +45,7 @@ public class Base64Util {
         try {
             result = new String(Base64.getDecoder().decode(text.getBytes()));
         } catch ( Exception e ) {
-            log.error("Failed to decode base64.", e);
+            log.error("Failed to decode base64. [TEXT]{}", text, e);
         }
 
         return result;
