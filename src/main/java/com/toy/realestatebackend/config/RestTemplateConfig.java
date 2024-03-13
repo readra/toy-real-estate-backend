@@ -12,6 +12,8 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * RestTemplate 설정
+ *
+ * @author 김진용
  */
 @Configuration
 public class RestTemplateConfig {
