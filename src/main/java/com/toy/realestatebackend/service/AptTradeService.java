@@ -46,15 +46,24 @@ public class AptTradeService {
     public List<AptTradeItem> findAptTradeItems(AptTradeSearchCondition aptTradeSearchCondition) {
         /*
             TODO
-            1. 아파트매매실거래 정보 갯수와 키 기준으로 갯수가 초과되기 전의 년월까지 조회하여 응답
+            1. 아파트매매실거래 정보 갯수와 키 기준으로 갯수가 초과되기 전의 년월까지 조회하여 응답 (진행중)
             2. 조회된 년월까지 아파트매매실거래 정보 키 생성하여 응답
          */
         List<AptTradeItem> aptTradeItems = new LinkedList<>();
-        YearMonth nowYearMonth = aptTradeSearchCondition.getStartYearMonth();
+        YearMonth nowYearMonth = null;
+        if ( null == aptTradeSearchCondition.getItemKey() || true == aptTradeSearchCondition.getItemKey().isBlank() ) {
+            nowYearMonth = aptTradeSearchCondition.getStartYearMonth();
+        } else {
+            // TODO : itemKey 가 존재하는 경우, itemKey decode 후, 시작 년월 확인
+        }
 
         try {
             while ( true == nowYearMonth.isBefore(aptTradeSearchCondition.getEndYearMonth()) || true == nowYearMonth.equals(aptTradeSearchCondition.getEndYearMonth()) ) {
                 try {
+                    if ( aptTradeSearchCondition.getItemCount() <= aptTradeItems.size() ) {
+                        break;
+                    }
+
                     // 검색을 위한 Redis key 생성
                     String redisKey = aptTradeSearchCondition.getRedisKey(nowYearMonth);
                     // Redis key 기준 아파트매매실거래 목록 조회
