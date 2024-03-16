@@ -44,18 +44,8 @@ public class AptTradeService {
      *      아파트매매실거래 목록
      */
     public List<AptTradeItem> findAptTradeItems(AptTradeSearchCondition aptTradeSearchCondition) {
-        /*
-            TODO
-            1. 아파트매매실거래 정보 갯수와 키 기준으로 갯수가 초과되기 전의 년월까지 조회하여 응답 (진행중)
-            2. 조회된 년월까지 아파트매매실거래 정보 키 생성하여 응답
-         */
         List<AptTradeItem> aptTradeItems = new LinkedList<>();
-        YearMonth nowYearMonth = null;
-        if ( null == aptTradeSearchCondition.getItemKey() || true == aptTradeSearchCondition.getItemKey().isBlank() ) {
-            nowYearMonth = aptTradeSearchCondition.getStartYearMonth();
-        } else {
-            // TODO : itemKey 가 존재하는 경우, itemKey decode 후, 시작 년월 확인
-        }
+        YearMonth nowYearMonth = aptTradeSearchCondition.getStartYearMonth();
 
         try {
             while ( true == nowYearMonth.isBefore(aptTradeSearchCondition.getEndYearMonth()) || true == nowYearMonth.equals(aptTradeSearchCondition.getEndYearMonth()) ) {
@@ -86,6 +76,8 @@ public class AptTradeService {
         } catch ( Exception e ) {
             log.error("Failed to find apt trade item. [YM]{}, [COND]{}", nowYearMonth, aptTradeSearchCondition, e);
         }
+
+        // TODO : nowYearMonth(다음 조회 시작 년월) 와 aptTradeItems(조회 아파트매매실거래 목록) 같이 응답
 
         return aptTradeItems;
     }
