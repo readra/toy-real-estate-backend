@@ -5,10 +5,12 @@ import com.toy.realestatebackend.domain.AptTradeSearchCondition;
 import com.toy.realestatebackend.domain.CommonListCountResponse;
 import com.toy.realestatebackend.service.AptTradeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.YearMonth;
 import java.util.List;
 
 /**
@@ -34,11 +36,12 @@ public class AptTradeController {
      */
     @GetMapping("/api/apartment")
     public CommonListCountResponse<AptTradeItem> findAptTradeItems(AptTradeSearchCondition aptTradeSearchCondition) {
-        List<AptTradeItem> aptTradeItems = aptTradeService.findAptTradeItems(aptTradeSearchCondition);
+        Pair<YearMonth, List<AptTradeItem>> result = aptTradeService.findAptTradeItems(aptTradeSearchCondition);
 
         return CommonListCountResponse.<AptTradeItem>builder()
-                .results(aptTradeItems)
-                .totalCount(aptTradeItems.size())
+                .results(result.getSecond())
+                .totalCount(result.getSecond().size())
+                .key(result.getFirst())
                 .build();
     }
 }

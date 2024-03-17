@@ -5,6 +5,7 @@ import com.toy.realestatebackend.domain.AptTradeSearchCondition;
 import com.toy.realestatebackend.enums.LawdGuType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -43,7 +44,7 @@ public class AptTradeService {
      * @return
      *      아파트매매실거래 목록
      */
-    public List<AptTradeItem> findAptTradeItems(AptTradeSearchCondition aptTradeSearchCondition) {
+    public Pair<YearMonth, List<AptTradeItem>> findAptTradeItems(AptTradeSearchCondition aptTradeSearchCondition) {
         List<AptTradeItem> aptTradeItems = new LinkedList<>();
         YearMonth nowYearMonth = aptTradeSearchCondition.getStartYearMonth();
 
@@ -77,9 +78,7 @@ public class AptTradeService {
             log.error("Failed to find apt trade item. [YM]{}, [COND]{}", nowYearMonth, aptTradeSearchCondition, e);
         }
 
-        // TODO : nowYearMonth(다음 조회 시작 년월) 와 aptTradeItems(조회 아파트매매실거래 목록) 같이 응답
-
-        return aptTradeItems;
+        return Pair.of(nowYearMonth, aptTradeItems);
     }
 
     /**

@@ -23,6 +23,8 @@ public class CommonListCountResponse<T> {
     private List<T> results;
     // 결과 갯수
     private int totalCount;
+    // 키 정보
+    private Object key;
 
     /**
      * 생성자
@@ -33,8 +35,9 @@ public class CommonListCountResponse<T> {
      *      결과 갯수
      */
     @Builder
-    public CommonListCountResponse(List<T> results, int totalCount) {
+    public CommonListCountResponse(List<T> results, int totalCount, Object key) {
         this.results = results;
         this.totalCount = totalCount;
+        this.key = key;
     }
 }
