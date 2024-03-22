@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.Assert;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -50,7 +49,9 @@ public enum LawdSiType {
     public static LawdSiType codeOf(@JsonProperty("code") final int code) {
         LawdSiType lawdSiType = codeToEnum.get(code);
 
-        Assert.notNull(lawdSiType, "Unsupported lawd si type code. [CODE]" + code);
+        if ( null == lawdSiType ) {
+            log.warn("Unsupported lawd si type code. [CODE]" + code);
+        }
 
         return lawdSiType;
     }

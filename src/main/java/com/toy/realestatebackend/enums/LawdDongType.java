@@ -5,13 +5,12 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.util.Assert;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.toy.realestatebackend.enums.LawdGuType.*;
+import static com.toy.realestatebackend.enums.LawdGuType.GANGDONG;
 
 /**
  * 지역(동) 타입 enum
@@ -55,7 +54,9 @@ public enum LawdDongType {
     public static LawdDongType codeOf(@JsonProperty("code") final int code) {
         LawdDongType lawdDongType = codeToEnum.get(code);
 
-        Assert.notNull(lawdDongType, "Unsupported lawd dong type code. [CODE]" + code);
+        if ( null == lawdDongType ) {
+            log.warn("Unsupported lawd dong type code. [CODE]" + code);
+        }
 
         return lawdDongType;
     }
