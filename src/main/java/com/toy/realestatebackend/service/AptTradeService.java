@@ -96,6 +96,7 @@ public class AptTradeService {
     public List<AptTradeItem> findAptTradeItemFromOpenApi(AptTradeSearchCondition aptTradeSearchCondition, YearMonth nowYearMonth) throws Exception {
         List<AptTradeItem> aptTradeItems = new LinkedList<>();
 
+        // TODO : enum 상속 관계? 인터페이스 관리법 조사
         // TODO : aptTradeSearchCondition.getLawdCode() 기준으로 어떤 enum 인지 확인
         // TODO : LawdDongType 일 경우, lawdCode substring 및 aptTradeItem 필터링
 
