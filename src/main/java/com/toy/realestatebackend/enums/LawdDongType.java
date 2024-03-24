@@ -20,7 +20,7 @@ import static com.toy.realestatebackend.enums.LawdGuType.GANGDONG;
 @Slf4j
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum LawdDongType {
+public enum LawdDongType implements LawdType {
     JAMSIL (1174000100, "잠실동", GANGDONG);
 
     // 지역코드(동)

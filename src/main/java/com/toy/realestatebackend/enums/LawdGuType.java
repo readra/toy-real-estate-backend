@@ -20,7 +20,7 @@ import static com.toy.realestatebackend.enums.LawdSiType.SEOUL;
 @Slf4j
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum LawdGuType {
+public enum LawdGuType implements LawdType {
     GANGDONG (11740, "강동구", SEOUL);
 
     // 지역코드(구)

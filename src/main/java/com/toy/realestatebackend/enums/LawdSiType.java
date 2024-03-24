@@ -18,7 +18,7 @@ import java.util.Map;
 @Slf4j
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum LawdSiType {
+public enum LawdSiType implements LawdType {
     SEOUL (11, "서울특별시");
 
     // 지역코드(시)
