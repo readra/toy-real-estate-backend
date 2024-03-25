@@ -2,7 +2,10 @@ package com.toy.realestatebackend.service;
 
 import com.toy.realestatebackend.domain.AptTradeItem;
 import com.toy.realestatebackend.domain.AptTradeSearchCondition;
+import com.toy.realestatebackend.enums.LawdDongType;
 import com.toy.realestatebackend.enums.LawdGuType;
+import com.toy.realestatebackend.enums.LawdSiType;
+import com.toy.realestatebackend.enums.LawdType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
@@ -96,8 +99,18 @@ public class AptTradeService {
     public List<AptTradeItem> findAptTradeItemFromOpenApi(AptTradeSearchCondition aptTradeSearchCondition, YearMonth nowYearMonth) throws Exception {
         List<AptTradeItem> aptTradeItems = new LinkedList<>();
 
-        // TODO : enum 상속 관계? 인터페이스 관리법 조사
-        // TODO : aptTradeSearchCondition.getLawdCode() 기준으로 어떤 enum 인지 확인
+        LawdType lawdType = null;
+        boolean isDongType;
+
+        if ( null == (lawdType = LawdSiType.codeOf(aptTradeSearchCondition.getLawdCode())) ) {
+            if ( null == (lawdType = LawdGuType.codeOf(aptTradeSearchCondition.getLawdCode())) ) {
+                if ( null == (lawdType = LawdDongType.codeOf(aptTradeSearchCondition.getLawdCode())) ) {
+                    throw new IllegalArgumentException("Unsupported lawd code. [CODE]" + aptTradeSearchCondition.getLawdCode());
+                } else {
+                    isDongType = true;
+                }
+            }
+        }
         // TODO : LawdDongType 일 경우, lawdCode substring 및 aptTradeItem 필터링
 
         StringBuilder stringBuilder = new StringBuilder("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade"); /*URL*/
