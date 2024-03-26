@@ -99,8 +99,8 @@ public class AptTradeService {
     public List<AptTradeItem> findAptTradeItemFromOpenApi(AptTradeSearchCondition aptTradeSearchCondition, YearMonth nowYearMonth) throws Exception {
         List<AptTradeItem> aptTradeItems = new LinkedList<>();
 
-        LawdType lawdType = null;
-        boolean isDongType;
+        LawdType lawdType;
+        boolean isDongType = false;
 
         if ( null == (lawdType = LawdSiType.codeOf(aptTradeSearchCondition.getLawdCode())) ) {
             if ( null == (lawdType = LawdGuType.codeOf(aptTradeSearchCondition.getLawdCode())) ) {
@@ -111,11 +111,16 @@ public class AptTradeService {
                 }
             }
         }
-        // TODO : LawdDongType 일 경우, lawdCode substring 및 aptTradeItem 필터링
+
+        int lawdCode = lawdType.getCode();
+        // LawdDongType 일 경우, lawdCode substring
+        if ( true == isDongType ) {
+            lawdCode = Integer.parseInt(Integer.toString(aptTradeSearchCondition.getLawdCode()).substring(0, 5));
+        }
 
         StringBuilder stringBuilder = new StringBuilder("http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcAptTrade"); /*URL*/
         stringBuilder.append("?" + URLEncoder.encode("serviceKey", StandardCharsets.UTF_8) + "=" + "%2F7MeSbybd07ucEmj8BF72GmhsZV9KbqQ2BTpylshbKDKGNzSktYgCYvTOkvKuZCxWc8WHA5B3ecQ9qld7%2BGjOw%3D%3D"); /*Service Key*/
-        stringBuilder.append("&" + URLEncoder.encode("LAWD_CD", StandardCharsets.UTF_8) + "=" + URLEncoder.encode(Integer.toString(aptTradeSearchCondition.getLawdCode()), StandardCharsets.UTF_8)); /*각 지역별 코드*/
+        stringBuilder.append("&" + URLEncoder.encode("LAWD_CD", StandardCharsets.UTF_8) + "=" + URLEncoder.encode(Integer.toString(lawdCode), StandardCharsets.UTF_8)); /*각 지역별 코드*/
         stringBuilder.append("&" + URLEncoder.encode("DEAL_YMD", StandardCharsets.UTF_8) + "=" + URLEncoder.encode(nowYearMonth.format(DateTimeFormatter.ofPattern("yyyyMM")), StandardCharsets.UTF_8)); /*월 단위 신고자료*/
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -142,6 +147,11 @@ public class AptTradeService {
                         .lawd(LawdGuType.codeOf(Integer.parseInt(getElementByTagName(element, "지역코드"))).getName())
                         .layer(Integer.parseInt(getElementByTagName(element, "층")))
                         .build();
+
+                // LawdDongType 일 경우, aptTradeItem 필터링
+                if ( true == isDongType && false == lawdType.getName().equalsIgnoreCase(aptTradeItem.getLegalBuilding()) ) {
+                    continue;
+                }
 
                 if ( false == aptTradeItem.isValid(aptTradeSearchCondition) ) {
                     continue;

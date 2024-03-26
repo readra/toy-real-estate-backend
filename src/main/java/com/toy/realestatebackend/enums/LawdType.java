@@ -6,7 +6,19 @@ package com.toy.realestatebackend.enums;
  * @author 김진용
  */
 public interface LawdType {
-    static LawdType codeOf(int code) {
-        return null;
-    }
+    /**
+     * 지역 코드를 반환한다.
+     *
+     * @return
+     *      지역 코드
+     */
+    int getCode();
+
+    /**
+     * 지역 코드명을 반환한다.
+     *
+     * @return
+     *      지역 코드명
+     */
+    String getName();
 }
