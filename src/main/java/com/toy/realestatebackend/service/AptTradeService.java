@@ -102,6 +102,7 @@ public class AptTradeService {
         LawdType lawdType;
         boolean isDongType = false;
 
+        // 검색 조건 내, 지역 코드 기준 지역 코드 enum 확인
         if ( null == (lawdType = LawdSiType.codeOf(aptTradeSearchCondition.getLawdCode())) ) {
             if ( null == (lawdType = LawdGuType.codeOf(aptTradeSearchCondition.getLawdCode())) ) {
                 if ( null == (lawdType = LawdDongType.codeOf(aptTradeSearchCondition.getLawdCode())) ) {
