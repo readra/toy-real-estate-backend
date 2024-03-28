@@ -150,11 +150,8 @@ public class AptTradeService {
                         .build();
 
                 // LawdDongType 일 경우, aptTradeItem 필터링
-                if ( true == isDongType && false == lawdType.getName().equalsIgnoreCase(aptTradeItem.getLegalBuilding()) ) {
-                    continue;
-                }
-
-                if ( false == aptTradeItem.isValid(aptTradeSearchCondition) ) {
+                // 검색 조건에 부합하지 않을 경우 필터링
+                if ( true == isDongType && false == lawdType.getName().equalsIgnoreCase(aptTradeItem.getLegalBuilding()) || false == aptTradeItem.isValid(aptTradeSearchCondition) ) {
                     continue;
                 }
 
