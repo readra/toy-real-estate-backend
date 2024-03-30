@@ -10,4 +10,4 @@
 3.2.1.1. Cache Object 저장 및 조회 추가 (완료)
 3.2.2. Spring Cloud Circuit Breaker 적용 (대기)
 3.2.2.1. Cache + RDB 대상 Circuit Breaker 추가 (대기)
-3.3. 시/구(필수), 동(선택)까지 선택 시, 필터링 처리 (진행중)
+3.3. 시/구(필수), 동(선택)까지 선택 시, 필터링 처리 (완료)
