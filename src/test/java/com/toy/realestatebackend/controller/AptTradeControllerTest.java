@@ -35,10 +35,11 @@ public class AptTradeControllerTest {
     @Test
     @DisplayName("아파트 매매 신고정보 조회 테스트")
     void apartment_test() throws Exception {
-        MvcResult mvcResult = mockMvc.perform(get(BASE_URL + "/apartment?lawdCode={lawdCode}&startYearMonth={startYearMonth}&endYearMonth={endYearMonth}",
+        MvcResult mvcResult = mockMvc.perform(get(BASE_URL + "/apartment?lawdCode={lawdCode}&startYearMonth={startYearMonth}&endYearMonth={endYearMonth}&itemCount={itemCount}",
                         11740,
                         YearMonth.parse("201501", DateTimeFormatter.ofPattern("yyyyMM")),
-                        YearMonth.parse("201501", DateTimeFormatter.ofPattern("yyyyMM"))))
+                        YearMonth.parse("201501", DateTimeFormatter.ofPattern("yyyyMM")),
+                        100))
                 .andExpect(status().isOk())
                 .andReturn();
 
