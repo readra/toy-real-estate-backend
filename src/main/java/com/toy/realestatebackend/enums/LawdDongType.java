@@ -21,6 +21,7 @@ import static com.toy.realestatebackend.enums.LawdGuType.GANGDONG;
 @Getter
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum LawdDongType implements LawdType {
+    MYUNGIL (1174010100, "명일동", GANGDONG),
     JAMSIL (1174000100, "잠실동", GANGDONG);
 
     // 지역코드(동)

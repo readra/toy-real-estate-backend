@@ -61,7 +61,7 @@ public class AptTradeService {
                     // 검색을 위한 Redis key 생성
                     String redisKey = aptTradeSearchCondition.getRedisKey(nowYearMonth);
                     // Redis key 기준 아파트매매실거래 목록 조회
-                    List<AptTradeItem> subAptTradeItems = redisService.getValues(redisKey, AptTradeItem.class);
+                    List<AptTradeItem> subAptTradeItems = null; //redisService.getValues(redisKey, AptTradeItem.class);
 
                     if ( null == subAptTradeItems || true == subAptTradeItems.isEmpty() ) {
                         log.info("Empty key. [KEY]{}, [ITEM]{}", redisKey, subAptTradeItems);
@@ -69,7 +69,7 @@ public class AptTradeService {
                         // 아파트매매실거래 목록 미존재할 경우, Open API 로 부터 아파트실거래 목록 조회
                         subAptTradeItems = findAptTradeItemFromOpenApi(aptTradeSearchCondition, nowYearMonth);
                         // Redis 저장
-                        redisService.setValues(redisKey, subAptTradeItems);
+//                        redisService.setValues(redisKey, subAptTradeItems);
                     }
 
                     aptTradeItems.addAll(subAptTradeItems);
@@ -151,7 +151,7 @@ public class AptTradeService {
 
                 // LawdDongType 일 경우, aptTradeItem 필터링
                 // 검색 조건에 부합하지 않을 경우 필터링
-                if ( true == isDongType && false == lawdType.getName().equalsIgnoreCase(aptTradeItem.getLegalBuilding()) || false == aptTradeItem.isValid(aptTradeSearchCondition) ) {
+                if ( (true == isDongType && false == lawdType.getName().equalsIgnoreCase(aptTradeItem.getLegalBuilding())) || (false == aptTradeItem.isValid(aptTradeSearchCondition)) ) {
                     continue;
                 }
 
@@ -173,6 +173,8 @@ public class AptTradeService {
      *      XML Element
      */
     public String getElementByTagName(Element element, String tagName) {
-        return element.getElementsByTagName(tagName).item(0).getChildNodes().item(0).getNodeValue();
+        String result = element.getElementsByTagName(tagName).item(0).getChildNodes().item(0).getNodeValue();
+
+        return (null == result || true == result.isBlank()) ? result : result.trim();
     }
 }
